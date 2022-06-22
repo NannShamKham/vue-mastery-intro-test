@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div id="app">
+
+    <div class="container">
+        <div class="row justify-content-end my-5">
+            <div class="col-lg-2">
+                <div class="">
+                    <button class="btn btn-outline-primary">
+                        Cart <span class="badge bg-danger ">{{cart}}</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <div class="row justify-content-center my-5">
+            <div  class="col-12 col-md-4">
+                <div  class="show-img text-center">
+                    <img v-bind:src="image" class="w-75" alt="">
+<!--                    <img src="assets/images/socks_green.jpg" alt="">-->
+                </div>
+
+
+            </div>
+            <div class="col-md-4">
+                <div class="">
+                    <div class="product-info">
+                        <h2 >{{product}}</h2>
+                        <p>{{description}}</p>
+                        <p v-if="inventory >10">In Stock</p>
+                        <p v-else-if="inventory <=10 &&  inventory >5">Almost Out Of Stock</p>
+                        <p v-else>Out of Stock</p>
+                        <a class="btn btn-primary" v-bind:href="linkAttr">go to footer</a>
+                        <ul>
+                            <li v-for=" detail in  details">{{detail}}</li>
+                        </ul>
+                        <div class="" v-for=" variant in  variants" :key="variant.id" @mouseover="updateImage(variant.image)"> {{ variant.color}}</div>
+                        <button class="btn btn-lg btn-primary " v-on:click="addtoCart()">Add To Cart</button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row min-vh-100"></div>
+        <div class="row" id="foot">
+            <h1>this is footer</h1>
+        </div>
+    </div>
+</div>
+<script src="vue.global.js">
+</script>
+<script>
+    const app = Vue.createApp({
+        data(){
+            return{
+                product:"lamp",
+                description:"I like it so much blah blah",
+                image:'assets/images/socks_green.jpg',
+                linkAttr:'#foot',
+                inventory:8,
+                details:['50% cortoon','30% wool','20% polyester'],
+                variants:[
+                    {id: 2233, color: 'green', image:'assets/images/socks_green.jpg'}
+                    ,{id: 2234, color: 'blue', image:'assets/images/socks_blue.jpg'}
+                ],
+                cart:0
+            }
+        },
+        methods:{
+            addtoCart(){
+                this.cart+=1;
+            },
+            updateImage(image){
+                this.image=image;
+            }
+        }
+    }).mount('#app')
+</script>
+</body>
+</html>
